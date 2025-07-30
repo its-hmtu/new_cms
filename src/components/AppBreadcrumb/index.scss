@@ -1,0 +1,13 @@
+.breadcrumb-clickable {
+  cursor: pointer;
+}
+
+.breadcrumb-not-clickable {
+  pointer-events: none;
+  color: var(--text-secondary);
+}
+
+.breadcrumb-last {
+  color: #000!important;
+}
+
