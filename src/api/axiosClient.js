@@ -1,5 +1,3 @@
-import { store } from "@/app/store";
-import { logoutAction } from "@/features/Auth/auth.slice";
 import axios from "axios";
 import Cookies from "js-cookie";
 
@@ -29,7 +27,9 @@ axiosClient.interceptors.response.use(
   (response) => response.data || response,
   (error) => {
     if (error.response && error.response.status === 401) {
-      store.dispatch(logoutAction());
+      // Clear auth data without dispatching to store to avoid circular dependency
+      Cookies.remove('access_token');
+      localStorage.removeItem('user');
       window.location.href = '/login';
     }
     return Promise.reject(error);

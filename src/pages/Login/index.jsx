@@ -5,7 +5,6 @@ import "./index.scss";
 import useAuth from "@/features/Auth/hooks/useAuth";
 import PATH from "@/configs/paths/PATH";
 import { loginUser } from "@/features/Auth/auth.thunks";
-import { toast } from "react-toastify";
 import useActionLoader from "@/features/Outlet/hooks/useActionLoader";
 
 function Login() {
