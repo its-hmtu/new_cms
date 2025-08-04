@@ -3,6 +3,7 @@ import PATH from "./paths/PATH";
 import { Navigate } from "react-router-dom";
 import ProtectedRoute from "@/components/common/ProtectedRoute";
 import Login from "@/pages/Login";
+import Dashboard from "@/pages/Dashboard";
 
 const routes = [
   {
@@ -23,7 +24,7 @@ const routes = [
       },
       {
         path: PATH.REPORT.REVENUE,
-        // element: <ReportRevenue />,
+        element: <Dashboard />,
       },
       {
         path: PATH.REPORT.REGISTER,

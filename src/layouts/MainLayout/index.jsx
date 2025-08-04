@@ -6,7 +6,7 @@ import AppHeader from "@/components/AppHeader";
 import AppBreadcrumb from "@/components/AppBreadcrumb";
 import AppSider from "@/components/AppSider";
 
-const { Content, Sider } = Layout;
+const { Content } = Layout;
 
 function MainLayout() {
   return (

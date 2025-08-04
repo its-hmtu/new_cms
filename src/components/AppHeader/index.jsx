@@ -42,7 +42,7 @@ function AppHeader() {
         >
           <Space className='items-center h-fit justify-between gap-4'>
             <p className='font-medium'>
-              Hello, <span className='font-normal'>{user.fullname}</span>
+              Hello, <span className='font-normal'>{user?.fullname}</span>
             </p>
 
             <Avatar className='bg-gray-400 mb-1' />

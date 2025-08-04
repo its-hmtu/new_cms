@@ -7,8 +7,6 @@ import { loginUser } from "./auth.thunks";
 const initialState = {
   user: JSON.parse(localStorage.getItem('user')) || null,
   isAuthenticated: !!Cookies.get('access_token'),
-  loading: false,
-  error: null,
 }
 
 const authSlice = createSlice({
@@ -22,19 +20,10 @@ const authSlice = createSlice({
 
       state.user = null;
       state.isAuthenticated = false;
-      state.loading = false;
-      state.error = null;
     },
-    clearError: (state) => {
-      state.error = null;
-    }
   },
   extraReducers: (builder) => {
     builder
-      .addCase(loginUser.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
       .addCase(loginUser.fulfilled, (state, action) => {
         const { accessToken, refreshToken, ...restValues } = action.payload.data;
         const decoded = jwtDecode(accessToken);
@@ -46,15 +35,12 @@ const authSlice = createSlice({
         localStorage.setItem('user', JSON.stringify({
           ...restValues,
         }));
-        state.loading = false;
         state.isAuthenticated = true;
         state.user = {
           ...restValues
         };
       })
-      .addCase(loginUser.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
+      .addCase(loginUser.rejected, (state) => {
         state.isAuthenticated = false;
       });
   }
@@ -62,7 +48,6 @@ const authSlice = createSlice({
 
 export const {
   logout: logoutAction,
-  clearError: clearErrorAction,
 } = authSlice.actions
 export const selectAuth = (state) => state.auth;
 export default authSlice.reducer;

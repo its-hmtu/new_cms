@@ -1,54 +1,29 @@
 import React, { useLayoutEffect } from "react";
-import { Form, Input, Button, Space, Card, notification } from "antd";
+import { Form, Input, Button, Space, Card } from "antd";
 import { useNavigate } from "react-router-dom";
 import "./index.scss";
 import useAuth from "@/features/Auth/hooks/useAuth";
 import PATH from "@/configs/paths/PATH";
 import { loginUser } from "@/features/Auth/auth.thunks";
 import { toast } from "react-toastify";
+import useActionLoader from "@/features/Outlet/hooks/useActionLoader";
 
 function Login() {
   const navigate = useNavigate();
-  const { isAuthenticated, loading, error, logInUser, clearAuthError } =
-    useAuth();
+  const { isAuthenticated, logInUser } = useAuth();
+  const isLoading = useActionLoader("auth/loginUser");
 
   useLayoutEffect(() => {
     if (isAuthenticated) {
       navigate(PATH.HOME, { replace: true });
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, navigate]);
 
   const onFinish = async (values) => {
-    try {
-      clearAuthError();
-      const result = await logInUser(values);
-      if (result.type === loginUser.rejected.type) {
-        toast.error(
-          <div className='login-error-container'>
-            <strong>Login Failed</strong>
-            <div className='login-error-message'>{result.payload}</div>
-          </div>,
-          {
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-            progress: undefined,
-          }
-        );
-      }
+    const result = await logInUser(values);
 
-      if (result.type === loginUser.fulfilled.type) {
-        navigate(PATH.HOME, { replace: true });
-      }
-
-    } catch (error) {
-      console.log(error)
-      toast.error("An unexpected error occurred. Please try again later.", {
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        progress: undefined,
-      });
+    if (result.type === loginUser.fulfilled.type) {
+      navigate(PATH.HOME, { replace: true });
     }
   };
 
@@ -57,18 +32,14 @@ function Login() {
       <Card className='login-card'>
         <Space className='login-inner-container' direction='vertical'>
           <div className='login-logo-container'>
-            <img
-              src='/logo.png'
-              alt='CMS Magic Wheel'
-              className=''
-            />
+            <img src='/logo.png' alt='CMS Magic Wheel' className='' />
           </div>
           <Form
             name='login'
             onFinish={onFinish}
             layout='vertical'
             requiredMark={false}
-            disabled={loading}
+            disabled={isLoading}
           >
             <Form.Item
               name='username'
@@ -96,11 +67,11 @@ function Login() {
                 htmlType='submit'
                 size='large'
                 block
-                loading={loading}
                 iconPosition='end'
                 className='login-button'
+                loading={isLoading}
               >
-                {loading ? "Logging in..." : "Login"}
+                {isLoading ? "Logging in..." : "Login"}
               </Button>
             </Form.Item>
           </Form>
