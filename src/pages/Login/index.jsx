@@ -2,10 +2,9 @@ import React, { useLayoutEffect } from "react";
 import { Form, Input, Button, Space, Card } from "antd";
 import { useNavigate } from "react-router-dom";
 import "./index.scss";
-import useAuth from "@/features/Auth/hooks/useAuth";
+import useAuth from "@/features/Auth/useAuth";
 import PATH from "@/configs/paths/PATH";
-import { loginUser } from "@/features/Auth/auth.thunks";
-import useActionLoader from "@/features/Outlet/hooks/useActionLoader";
+import useActionLoader from "@/features/Outlet/useActionLoader";
 
 function Login() {
   const navigate = useNavigate();
@@ -18,12 +17,8 @@ function Login() {
     }
   }, [isAuthenticated, navigate]);
 
-  const onFinish = async (values) => {
-    const result = await logInUser(values);
-
-    if (result.type === loginUser.fulfilled.type) {
-      navigate(PATH.HOME, { replace: true });
-    }
+  const onFinish = (values) => {
+    logInUser(values);
   };
 
   return (

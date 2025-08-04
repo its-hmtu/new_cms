@@ -1,6 +1,6 @@
 import React from 'react';
 import AppModal from '.';
-import useAuth from '@/features/Auth/hooks/useAuth';
+import useAuth from '@/features/Auth/useAuth';
 
 function LogoutModal({ openModal, setOpenModal }) {
   const { logOutUser } = useAuth();

@@ -3,7 +3,7 @@ import authReducer from "../features/Auth/auth.slice";
 import outletReducer from "../features/Outlet/outlet.slice";
 import {
   serviceListenerMiddleware,
-  serviceMiddleware,
+  // serviceMiddleware,
 } from "./middleware/serviceMiddleware";
 
 const rootReducer = combineReducers({
@@ -16,5 +16,5 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
       .prepend(serviceListenerMiddleware.middleware)
-      .concat(serviceMiddleware),
+      // .concat(serviceMiddleware),
 });

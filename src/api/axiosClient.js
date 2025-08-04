@@ -1,7 +1,6 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
-console.log(import.meta.env);
 const { VITE_API_BASE_URL } = import.meta.env;
 
 const axiosClient = axios.create({
@@ -27,7 +26,6 @@ axiosClient.interceptors.response.use(
   (response) => response.data || response,
   (error) => {
     if (error.response && error.response.status === 401) {
-      // Clear auth data without dispatching to store to avoid circular dependency
       Cookies.remove('access_token');
       localStorage.removeItem('user');
       window.location.href = '/login';

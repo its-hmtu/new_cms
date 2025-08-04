@@ -1,5 +1,5 @@
 import PATH from '@/configs/paths/PATH';
-import useAuth from '@/features/Auth/hooks/useAuth'
+import useAuth from '@/features/Auth/useAuth'
 import React from 'react'
 import { Navigate, useLocation } from 'react-router-dom';
 

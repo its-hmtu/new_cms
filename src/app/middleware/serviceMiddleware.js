@@ -4,22 +4,22 @@ import { toast } from "react-toastify";
 
 export const serviceListenerMiddleware = createListenerMiddleware();
 
-export const serviceMiddleware = (store) => (next) => (action) => {
-  const result = next(action);
-  const { type, payload, meta } = action;
-  
-  if (isAsyncThunkAction(action)) {
+serviceListenerMiddleware.startListening({
+  predicate: isAsyncThunkAction,
+  effect: async (action, listenApi) => {
+    const { type, payload, meta } = action;
     const baseType = type.replace(/\/(pending|fulfilled|rejected)$/, '');
-
+    
     if (type.endsWith('/pending')) {
-      store.dispatch(setLoading({ actionType: baseType, isLoading: true }));
+      listenApi.dispatch(setLoading({ actionType: baseType, isLoading: true }));
     } else if (type.endsWith('/fulfilled') || type.endsWith('/rejected')) {
-      store.dispatch(setLoading({ actionType: baseType, isLoading: false }));
+      await new Promise(resolve => setTimeout(resolve, 400));
+      listenApi.dispatch(setLoading({ actionType: baseType, isLoading: false }));
     }
 
     if (type.endsWith('/rejected')) {
       const errorMessage = payload || 'An error occurred';
-      if (meta?.skipError) return result;
+      if (meta?.skipError) return;
 
       if (!meta?.skipErrorToast) {
         toast.error(errorMessage, {
@@ -30,7 +30,6 @@ export const serviceMiddleware = (store) => (next) => (action) => {
         });
       }
     }
-
 
     if (type.endsWith('/fulfilled')) {
       if (meta?.showSuccessToast) {
@@ -43,6 +42,4 @@ export const serviceMiddleware = (store) => (next) => (action) => {
       }
     }
   }
-
-  return result;
-}
+})

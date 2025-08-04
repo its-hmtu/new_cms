@@ -5,7 +5,7 @@ import LogoutModal from "../AppModal/LogoutModal";
 import { LogoutOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import PATH from "@/configs/paths/PATH";
-import useAuth from "@/features/Auth/hooks/useAuth";
+import useAuth from "@/features/Auth/useAuth";
 
 const { Header } = Layout;
 

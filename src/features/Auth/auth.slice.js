@@ -2,7 +2,7 @@ import {createSlice} from "@reduxjs/toolkit";
 import { Modal } from "antd";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
-import { loginUser } from "./auth.thunks";
+import { loginUserAction } from "./auth.action";
 
 const initialState = {
   user: JSON.parse(localStorage.getItem('user')) || null,
@@ -24,8 +24,8 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(loginUser.fulfilled, (state, action) => {
-        const { accessToken, refreshToken, ...restValues } = action.payload.data;
+      .addCase(loginUserAction.fulfilled, (state, action) => {
+        const { accessToken, refreshToken, ...restValues } = action.payload.data || action.payload;
         const decoded = jwtDecode(accessToken);
         const exp = decoded.exp * 1000;
         Cookies.set('access_token', accessToken, {
@@ -40,7 +40,7 @@ const authSlice = createSlice({
           ...restValues
         };
       })
-      .addCase(loginUser.rejected, (state) => {
+      .addCase(loginUserAction.rejected, (state) => {
         state.isAuthenticated = false;
       });
   }
