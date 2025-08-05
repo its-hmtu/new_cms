@@ -1,7 +1,7 @@
-import { useAppSelector } from "@/app/hook";
+import { useSelector } from "react-redux";
 
 const useActionLoader = (actionType) => {
-  return useAppSelector((state) => Boolean(state.outlet.loading.actions[actionType]));
+  return useSelector((state) => Boolean(state.outlet.loading.actions[actionType]));
 }
 
 export default useActionLoader;

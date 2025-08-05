@@ -1,20 +1,45 @@
-import axiosClient from "./axiosClient"
+import axiosClient from "./axiosClient";
+import _ from "lodash";
 
-export const getDataApi = async (url = '', params = {}) => {
-  const {data, status} = await axiosClient.get(url, {params})
-
-  if (status !== 200) {
-    throw new Error(`Error fetching data: ${status}`);
+export const getDataApi = async (url = "", params = {}) => {
+  try {
+    const data = await axiosClient.get(url, params);
+    return data;
+  } catch (error) {
+    console.log(`get api: ${url} error = ${error}`);
+    return error;
   }
+};
 
-  return data;
-}
+export const postDataApi = async (url = "", body = {}) => {
+  try {
+    const response = await axiosClient.post(url, body);
+    return response;
+  } catch (error) {
+    console.log(`post api: ${url} error = ${error}`);
+    return error;
+  }
+};
 
-export const postDataApi = async (url = '', body = {}) => {
-  const response = await axiosClient.post(url, body);
-  console.log(response.data);
-  // if (response?.status !== 200 && response?.status !== 201) {
-  //   throw new Error(`Error posting data: ${response?.status}`);
-  // }
-  return response.data;
-}
+export const putDataApi = async (url = "", body = {}) => {
+  try {
+    const response = await axiosClient.put(url, body);
+    return response;
+  } catch (error) {
+    console.log(`put api: ${url} error = ${error}`);
+    return error;
+  }
+};
+
+export const deleteDataApi = async (url = "", body = {}) => {
+  try {
+    const response = _.isEmpty(body)
+      ? await axiosClient.delete(url)
+      : await axiosClient.delete(url, body);
+
+    return response;
+  } catch (error) {
+    console.error(`delete api: ${url} error =`, error);
+    return error;
+  }
+};

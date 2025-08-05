@@ -1,12 +1,13 @@
 import {createSlice} from "@reduxjs/toolkit";
 import { Modal } from "antd";
-import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 import { loginUserAction } from "./auth.action";
+import { getItemCookie, removeItemCookie, setItemCookie } from "@/utils/helper/cookie";
+import { getLocalstorageData, removeLocalstorageData, setLocalstorageData } from "@/utils/helper/localstorage";
 
 const initialState = {
-  user: JSON.parse(localStorage.getItem('user')) || null,
-  isAuthenticated: !!Cookies.get('access_token'),
+  user: getLocalstorageData('user') || null,
+  isAuthenticated: !!getItemCookie('access_token'),
 }
 
 const authSlice = createSlice({
@@ -15,8 +16,8 @@ const authSlice = createSlice({
   reducers: {
     logout: (state) => {
       Modal.destroyAll();
-      Cookies.remove('access_token');
-      localStorage.removeItem('user');
+      removeItemCookie('access_token');
+      removeLocalstorageData('user');
 
       state.user = null;
       state.isAuthenticated = false;
@@ -28,13 +29,10 @@ const authSlice = createSlice({
         const { accessToken, refreshToken, ...restValues } = action.payload.data || action.payload;
         const decoded = jwtDecode(accessToken);
         const exp = decoded.exp * 1000;
-        Cookies.set('access_token', accessToken, {
-          expires: new Date(exp),
-          sameSite: 'Strict',
-        })
-        localStorage.setItem('user', JSON.stringify({
+        setItemCookie({name: 'access_token', timer: new Date(exp), data: accessToken})
+        setLocalstorageData({key: 'user', data: {
           ...restValues,
-        }));
+        }});
         state.isAuthenticated = true;
         state.user = {
           ...restValues
