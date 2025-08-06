@@ -30,7 +30,12 @@ function Dashboard() {
       lineWidth: 2,
     },
   };
-  return <div style={{maxWidth: "100%"}}><Line {...config} /></div>;
+  return (
+    <>
+    <div style={{maxWidth: "100%"}}><Line {...config} /></div>
+    <div style={{maxWidth: "100%"}}><Line {...config} /></div>
+    </>
+  );
 }
 
 export default Dashboard
