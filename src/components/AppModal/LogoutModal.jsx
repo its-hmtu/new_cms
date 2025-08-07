@@ -1,22 +1,34 @@
 import React from 'react';
 import AppModal from '.';
 import useAuth from '@/features/Auth/useAuth';
+import useMediaQuery, {mediaQueryPoints} from '@/hooks/useMediaQuery';
+import { StyledLogoutModal } from './components/styles';
+import { LogOutIcon } from 'lucide-react';
 
 function LogoutModal({ openModal, setOpenModal }) {
   const { logOutUser } = useAuth();
+  const isMobile = useMediaQuery(`(max-width: ${mediaQueryPoints.md}px)`);
   return (
-    <AppModal
+    <StyledLogoutModal
       open={openModal}
       onOk={logOutUser}
       onCancel={() => setOpenModal(false)}
       okText="Logout"
       cancelText="Cancel"
+      okButtonProps={{ danger: true }}
+      cancelButtonProps={{
+        
+      }}
+      centered={isMobile}
     >
-      <div className="p-5 flex items-center flex-col gap-2">
-        <h1 className="font-bold text-3xl">Logout</h1>
-        <p>Are you sure you want to logout?</p>
+      <div className="modal-content">
+        <div className='icon'>
+          <LogOutIcon size={30} color="#ff4d4f" />
+        </div>
+        <h2>Sign out</h2>
+        <p>Are you sure you want to sign out?</p>
       </div>
-    </AppModal>
+    </StyledLogoutModal>
   );
 }
 

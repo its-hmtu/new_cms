@@ -1,7 +1,83 @@
 import styled from "styled-components";
-import { Layout } from "antd";
+import { Layout, Drawer } from "antd";
+const { Sider } = Layout;
 
-const {Sider} = Layout;
+export const StyledDrawer = styled(Drawer)`
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100vh;
+  scrollbar-width: thin;
+  background: #1c2536 !important;
+  z-index: 12;
+
+  .ant-drawer-body {
+    padding: 0;
+  }
+
+  .ant-drawer-header {
+    background: #1c2536;
+    padding: 16px 8px 16px 8px;
+
+    .ant-drawer-header-title {
+      flex-direction: row-reverse;
+    }
+  }
+
+  .ant-drawer-close {
+    color: white;
+  }
+
+  .ant-layout-sider-trigger {
+    background-color: #1c2536;
+    max-width: 260px;
+  }
+  .ant-menu {
+    border-inline-end: none !important;
+    padding-bottom: 20px;
+    background-color: #1c2536 !important;
+      .ant-menu-item-selected {
+        background-color: #ffffff0a !important;
+        &::before {
+          content: "";
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          right: 8px;
+          width: 7px;
+          height: 7px;
+          background-color: #57F800;
+          box-shadow: 0 0 5px #57F800;
+          border-radius: 99px;
+        }
+      }
+  }
+
+  .sider-logo {
+    display: flex;
+    padding: 0;
+    gap: 14px;
+    align-items: center;
+    img {
+      max-width: 54px;
+      max-height: 54px;
+      transition: max-width 0.2s ease, max-height 0.2s ease;
+
+      &.logo-collapsed {
+        max-width: 45px;
+        max-height: 45px;
+      }
+    }
+    p {
+      color: white;
+      font-weight: bold;
+      font-size: 16px;
+      margin: 0;
+      span {
+        display: block;
+      }
+    }
+  }
+`;
 
 export const StyledSider = styled(Sider)`
   overflow-y: auto;
@@ -23,6 +99,21 @@ export const StyledSider = styled(Sider)`
     border-inline-end: none !important;
     padding-bottom: 60px;
     background-color: #1c2536 !important;
+    .ant-menu-item-selected {
+      background-color: #ffffff0a !important;
+      &::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 8px;
+        width: 7px;
+        height: 7px;
+        background-color: #57F800;
+        box-shadow: 0 0 5px #57F800;
+        border-radius: 99px;
+      }
+    }
   }
 
   .sider-logo {
@@ -30,6 +121,16 @@ export const StyledSider = styled(Sider)`
     padding: 16px;
     gap: 14px;
     align-items: center;
+    img {
+      max-width: 54px;
+      max-height: 54px;
+      transition: max-width 0.2s ease, max-height 0.2s ease;
+
+      &.logo-collapsed {
+        max-width: 45px;
+        max-height: 45px;
+      }
+    }
     p {
       color: white;
       font-weight: bold;
@@ -40,7 +141,7 @@ export const StyledSider = styled(Sider)`
       }
     }
   }
-`
+`;
 
 export const ToggleSider = styled.div`
   cursor: pointer;
@@ -68,4 +169,4 @@ export const LabelUppercase = styled.span`
 
 export const Label = styled.span`
   font-weight: 500;
-`
+`;

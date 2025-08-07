@@ -15,11 +15,127 @@ const routes = [
     ),
     children: [
       {
+        index: true,
+        element: <Navigate to={PATH.MONITOR.SMSC_CONNECTION} replace />
+      },
+      {
+        path: PATH.MONITOR.ROOT,
+        element: <Navigate to={PATH.MONITOR.SMSC_CONNECTION} replace />,
+      },
+      {
         path: PATH.MONITOR.SMSC,
         element: <Navigate to={PATH.MONITOR.SMSC_CONNECTION} replace />,
       },
       {
         path: PATH.MONITOR.SMSC_CONNECTION,
+        element: <Dashboard />,
+      },
+      {
+        path: PATH.MONITOR.SMSC_MTTPS,
+        element: <Dashboard />,
+      },
+      {
+        path: PATH.MONITOR.SMSC_MOTPS,
+        element: <Dashboard />,
+      },
+      {
+        path: PATH.MONITOR.CLIENT,
+        element: <Navigate to={PATH.MONITOR.CLIENT_CONNECTION} replace />,
+      },
+      {
+        path: PATH.MONITOR.CLIENT_CONNECTION,
+        element: <Dashboard />,
+      }, 
+      {
+        path: PATH.MONITOR.CLIENT_MT_TRAFFIC,
+        element: <Dashboard />,
+      },
+      {
+        path: PATH.MONITOR.CLIENT_MO_TRAFFIC,
+        element: <Dashboard />,
+      },
+      {
+        path: PATH.MONITOR.QUEUE_MONITORING,
+        element: <Dashboard />,
+      },
+      {
+        path: PATH.MANAGEMENT.ROOT,
+        element: <Navigate to={PATH.MANAGEMENT.SMSC_INFO} replace />,
+      },
+      {
+        path: PATH.MANAGEMENT.SMSC_INFO,
+        element: <Dashboard />,
+      },
+      {
+        path: PATH.MANAGEMENT.SMSGW_INFO,
+        element: <Dashboard />,
+      },
+      {
+        path: PATH.MANAGEMENT.CLIENT,
+        element: <Navigate to={PATH.MANAGEMENT.CLIENT_MT_ACCOUNT} replace />,
+      },
+      {
+        path: PATH.MANAGEMENT.CLIENT_MT_ACCOUNT,
+        element: <Dashboard />,
+      },
+      {
+        path: PATH.MANAGEMENT.CLIENT_MO_ACCOUNT,
+        element: <Dashboard />,
+      },
+      {
+        path: PATH.MANAGEMENT.CLIENT_TPS_BY_TIME,
+        element: <Dashboard />,
+      },
+      {
+        path: PATH.MANAGEMENT.CLIENT_DELIVERY_REPORT_ACCOUNT,
+        element: <Dashboard />,
+      },
+      {
+        path: PATH.HISTORY_REPORT.ROOT,
+        element: <Navigate to={PATH.HISTORY_REPORT.SMS_HISTORY} replace />,
+      },
+      {
+        path: PATH.HISTORY_REPORT.SMS_HISTORY,
+        element: <Dashboard />,
+      },
+      {
+        path: PATH.HISTORY_REPORT.MT_TRAFFIC,
+        element: <Navigate to={PATH.HISTORY_REPORT.MT_TRAFFIC_CLIENT} replace />,
+      },
+      {
+        path: PATH.HISTORY_REPORT.MT_TRAFFIC_CLIENT,
+        element: <Dashboard />,
+      },
+      {
+        path: PATH.HISTORY_REPORT.MT_TRAFFIC_SMSC,
+        element: <Dashboard />,
+      },
+      {
+        path: PATH.HISTORY_REPORT.MO_TRAFFIC,
+        element: <Navigate to={PATH.HISTORY_REPORT.MO_TRAFFIC_CLIENT} replace />,
+      },
+      {
+        path: PATH.HISTORY_REPORT.MO_TRAFFIC_CLIENT,
+        element: <Dashboard />,
+      },
+      {
+        path: PATH.HISTORY_REPORT.MO_TRAFFIC_SMSC,
+        element: <Dashboard />,
+      },
+      {
+        path: PATH.ADMINISTRATION.ROOT,
+        element: <Navigate to={PATH.ADMINISTRATION.ACCOUNT} replace />,
+      },
+      {
+        path: PATH.ADMINISTRATION.ACCOUNT,
+        element: <Dashboard />,
+      },
+      {
+        path: PATH.ADMINISTRATION.PERMISSION,
+        element: <Dashboard />,
+      },
+      {
+        path: PATH.ADMINISTRATION.PERMISSION_GROUP,
         element: <Dashboard />,
       }
     ],

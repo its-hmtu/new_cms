@@ -1,289 +1,23 @@
-import { Button, Layout, Menu } from "antd";
-import React, { useState, useEffect, useMemo } from "react";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import PATH from "@/configs/paths/PATH";
+import { Menu } from "antd";
+import React, { useState } from "react";
 import "./index.scss";
-import {
-  ChartBarIncreasingIcon,
-  CommandIcon,
-  MessageCircleMoreIcon,
-  MessageSquareMoreIcon,
-  MessagesSquareIcon,
-  PanelLeftCloseIcon,
-  PanelRightCloseIcon,
-  ShieldCheckIcon,
-  ShuffleIcon,
-  TableOfContentsIcon,
-  UsersIcon,
-} from "lucide-react";
-import { Label, LabelUppercase, StyledSider, ToggleSider } from "./components/styles";
-
-const { Sider } = Layout;
+import { PanelLeftCloseIcon, PanelRightCloseIcon } from "lucide-react";
+import { StyledSider, ToggleSider } from "./components/styles";
+import useSider from "./hooks/useSider";
 
 function AppSider() {
-  const location = useLocation();
-  const [selectedKey, setSelectedKey] = useState([]);
   const [collapsed, setCollapsed] = useState(false);
-  const [imageWidth, setImageWidth] = useState(54);
   // const { hasUnsaved } = useUnsaved();
   // const navigate = useNavigate();
-  const items = useMemo(
-    () => [
-      {
-        key: "monitor",
-        type: "group",
-        label: "Monitor",
-        children: [
-          {
-            key: "smsc",
-            label: "SMSC",
-            icon: <MessageCircleMoreIcon size={16} />,
-            children: [
-              {
-                key: "smsc-connection",
-                label: "Connection",
-                path: PATH.MONITOR.SMSC_CONNECTION,
-              },
-              {
-                key: "smsc-mttps",
-                label: "MT TPS",
-                path: PATH.MONITOR.SMSC_MTTPS,
-              },
-              {
-                key: "smsc-motps",
-                label: "MO TPS",
-                path: PATH.MONITOR.SMSC_MOTPS,
-              },
-            ],
-          },
-          {
-            key: "monitor-client",
-            label: "Client",
-            icon: <TableOfContentsIcon size={16} />,
-            children: [
-              {
-                key: "client-connection",
-                label: "Connection",
-                path: PATH.MONITOR.CLIENT_CONNECTION,
-              },
-              {
-                key: "client-mt-traffic",
-                label: "MT Traffic",
-                path: PATH.MONITOR.CLIENT_MT_TRAFFIC,
-              },
-              {
-                key: "client-mo-traffic",
-                label: "MO Traffic",
-                path: PATH.MONITOR.CLIENT_MO_TRAFFIC,
-              },
-            ],
-          },
-          {
-            key: "queue-monitoring",
-            label: "Queue Monitoring",
-            icon: <ShuffleIcon size={16} />,
-            path: PATH.MONITOR.QUEUE_MONITORING,
-          },
-        ],
-      },
-      {
-        key: "management",
-        type: "group",
-        label: "Management",
-        children: [
-          {
-            key: "smsc-info",
-            label: "SMSC Information",
-            icon: <MessagesSquareIcon size={16} />,
-            path: PATH.MANAGEMENT.SMSC_INFO,
-          },
-          {
-            key: "smsgw-info",
-            label: "SMSGW Information",
-            icon: <CommandIcon size={16} />,
-            path: PATH.MANAGEMENT.SMSC_INFO,
-          },
-          {
-            key: "management-client",
-            label: "Client",
-            icon: <TableOfContentsIcon size={16} />,
-            children: [
-              {
-                key: "client-mt-account",
-                label: "MT Account",
-                path: PATH.MANAGEMENT.CLIENT_MT_ACCOUNT,
-              },
-              {
-                key: "client-mo-account",
-                label: "MO Account",
-                path: PATH.MANAGEMENT.CLIENT_MO_ACCOUNT,
-              },
-              {
-                key: "tps-by-time",
-                label: "TPS By Time Management",
-                path: PATH.MANAGEMENT.CLIENT_TPS_BY_TIME,
-              },
-              {
-                key: "delivery-report-account",
-                label: "Delivery Report Account",
-                path: PATH.MANAGEMENT.CLIENT_DELIVERY_REPORT_ACCOUNT,
-              },
-            ],
-          },
-        ],
-      },
-      {
-        key: "history-report",
-        label: "History & Report",
-        type: "group",
-        children: [
-          {
-            key: "sms-history",
-            label: "SMS History",
-            icon: <MessageSquareMoreIcon size={16} />,
-            path: PATH.HISTORY_REPORT.SMS_HISTORY,
-          },
-          {
-            key: "history-report-mt-traffic",
-            label: "MT Traffic",
-            icon: <TableOfContentsIcon size={16} />,
-            children: [
-              {
-                key: "history-report-mt-traffic-client",
-                label: "Client",
-                path: PATH.HISTORY_REPORT.MT_TRAFFIC_CLIENT,
-              },
-              {
-                key: "history-report-mt-traffic-smsc",
-                label: "SMSC",
-                path: PATH.HISTORY_REPORT.MO_TRAFFIC_SMSC,
-              },
-            ],
-          },
-          {
-            key: "history-report-mo-traffic",
-            label: "MO Traffic",
-            icon: <TableOfContentsIcon size={16} />,
-            children: [
-              {
-                key: "history-report-mo-traffic-client",
-                label: "Client",
-                path: PATH.HISTORY_REPORT.MO_TRAFFIC_CLIENT,
-              },
-              {
-                key: "history-report-mo-traffic-smsc",
-                label: "SMSC",
-                path: PATH.HISTORY_REPORT.MO_TRAFFIC_SMSC,
-              },
-            ],
-          },
-        ],
-      },
-      {
-        key: "administration",
-        label: "Administration",
-        type: "group",
-        children: [
-          {
-            key: "account",
-            label: "Account",
-            icon: <UsersIcon size={16} />,
-            path: PATH.ADMINISTRATION.ACCOUNT,
-          },
-          {
-            key: "permission",
-            label: "Permission",
-            icon: <ChartBarIncreasingIcon size={16} />,
-            path: PATH.ADMINISTRATION.PERMISSION,
-          },
-          {
-            key: "permission-group",
-            label: "Permission Group",
-            icon: <ShieldCheckIcon size={16} />,
-            path: PATH.ADMINISTRATION.PERMISSION_GROUP,
-          },
-        ],
-      },
-    ],
-    []
-  );
-
-  useEffect(() => {
-    const currentPath = location.pathname;
-    const { selected } = findActiveMenuKeys(currentPath, items);
-    setSelectedKey([selected]);
-  }, [location, items]);
-
-  const handleMenuClick = (e, target) => {
-    // if (hasUnsaved) {
-    //   e.preventDefault();
-    //   // UnsavedChangesModal(() => {
-    //   //   navigate(target, { replace: true });
-    //   // });
-    //   return false;
-    // }
-
-    return true;
-  };
-
-  const transformMenuItems = (items) => {
-    return items.map((item) => ({
-      ...item,
-      label: item.path ? (
-        <NavLink
-          to={item.path}
-          className={({ isActive, isPending }) =>
-            isPending ? "pending" : isActive ? "active" : ""
-          }
-          onClick={(e) => handleMenuClick(e, item.path)}
-        >
-          <span className='label'>{item.label}</span>
-        </NavLink>
-      ) : item.type === "group" ? (
-        <LabelUppercase>{item.label}</LabelUppercase>
-      ) : (
-        <Label>{item.label}</Label>
-      ),
-      children: item.children ? transformMenuItems(item.children) : undefined,
-    }));
-  };
-
-  const findActiveMenuKeys = (path, items) => {
-    const searchInItems = (itemsList, openKeys = []) => {
-      for (const item of itemsList) {
-        if (item.path === path) {
-          return { selected: item.key, openKeys };
-        }
-
-        if (item.children) {
-          const result = searchInItems(item.children, [...openKeys, item.key]);
-          if (result.selected) {
-            return result;
-          }
-
-          if (item.path && path.startsWith(item.path)) {
-            return { selected: item.key, openKeys };
-          }
-        } else if (item.path && path.startsWith(item.path)) {
-          return { selected: item.key, openKeys };
-        }
-      }
-      return { selected: "", openKeys: [] };
-    };
-
-    return searchInItems(items);
-  };
-
-  const menuItems = useMemo(() => transformMenuItems(items), [items]);
-
+  const { menuItems, selectedKey, defaultOpenKeys } = useSider();
   return (
     <StyledSider
       collapsible
       width={270}
       theme='dark'
-      breakpoint="lg"
+      breakpoint='lg'
       onBreakpoint={(broken) => {
-        if (broken) setCollapsed(true)
+        if (broken) setCollapsed(true);
       }}
       trigger={
         <ToggleSider
@@ -300,15 +34,13 @@ function AppSider() {
         </ToggleSider>
       }
       collapsed={collapsed}
-      onCollapse={(collapsed) => {
-        if (collapsed) setImageWidth(45);
-      }}
     >
       <div className='sider-logo'>
-        <img src='/logo.png' alt='SMSGW 2.0' style={{
-          maxWidth: `${imageWidth}px`,
-          maxHeight: `${imageWidth}px`,
-        }} />
+        <img
+          src='/logo.png'
+          alt='SMSGW 2.0'
+          className={`${collapsed ? "logo-collapsed" : ""}`}
+        />
         {!collapsed ? (
           <p>
             SMSGW
@@ -320,13 +52,7 @@ function AppSider() {
         theme='dark'
         mode='inline'
         selectedKeys={selectedKey}
-        defaultOpenKeys={[
-          "smsc",
-          "monitor-client",
-          "management-client",
-          "history-report-mt-traffic",
-          "history-report-mo-traffic",
-        ]}
+        defaultOpenKeys={defaultOpenKeys}
         items={menuItems}
       />
     </StyledSider>
@@ -334,4 +60,3 @@ function AppSider() {
 }
 
 export default AppSider;
-

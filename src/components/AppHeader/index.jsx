@@ -1,48 +1,87 @@
-import { Avatar, Space } from "antd";
+import { Avatar, Badge, Button, Popover, Space } from "antd";
 import React, { useState } from "react";
 import AppDropdown from "../AppDropdown";
 import LogoutModal from "../AppModal/LogoutModal";
-import { LogoutOutlined } from "@ant-design/icons";
-import { Link } from "react-router-dom";
-import PATH from "@/configs/paths/PATH";
 import "./index.scss";
-import { StyledHeader } from "./components/styles";
+import { HeaderGroup, StyledHeader } from "./components/styles";
+import useMediaQuery, { mediaQueryPoints } from "@/hooks/useMediaQuery";
+import { BellIcon, LogOutIcon, MenuIcon, UsersIcon, XIcon } from "lucide-react";
+import avatar from "@/assets/images/avatar.png";
 
-function AppHeader() {
+function AppHeader({ setOpenDrawer }) {
   const [openModal, setOpenModal] = useState(false);
+  const [openPopover, setOpenPopover] = useState(false);
+  const isMobile = useMediaQuery(`(max-width: ${mediaQueryPoints.md}px)`);
 
   return (
     <StyledHeader theme='light'>
-      <Space className='items-center justify-between w-full h-full pl-7'>
-        <div className='logo flex items-center justify-start flex-row gap-2 h-full'>
-          <Link to={PATH.HOME}>
-            {/* <img
-              src='/logo.png'
-              alt='Magic Wheel'
-              className='aspect-auto w-24 h-auto'
-            /> */}
-          </Link>
-        </div>
-        <AppDropdown
-          options={[
-            {
-              key: "1",
-              label: "Sign out",
-              icon: <LogoutOutlined />,
-              onClick: () => setOpenModal(true),
-            },
-          ]}
-          onChange={(item) => item.onClick()}
-          placement='bottomRight'
-          overlayStyle={{ minWidth: "150px" }}
+      {isMobile && (
+        <Button
+          type='text'
+          className='menu-button'
+          onClick={() => setOpenDrawer(true)}
         >
-          <Space className='items-center h-fit justify-between gap-4'>
-            <Avatar className='bg-gray-400 mb-1' />
-          </Space>
-        </AppDropdown>
+          <MenuIcon size={20} color='#6c737f' />
+        </Button>
+      )}
 
-        <LogoutModal openModal={openModal} setOpenModal={setOpenModal} />
-      </Space>
+      <HeaderGroup>
+        <Popover
+          open={openPopover}
+          content={
+            <div>Notifications</div>
+          }
+          title={
+            <Space className='popover-title' style={{ 
+              width: '100%',
+              justifyContent: 'space-between'
+            }}>
+              <h3>Notifications</h3>
+              <Button
+                type='text'
+                onClick={() => setOpenPopover(false)}
+                className='close-button'
+                style={{ padding: 0}}
+              >
+                <XIcon size={16} />
+              </Button>
+            </Space>
+          }
+          trigger='click'
+          onOpenChange={(visible) => setOpenPopover(visible)}
+        >
+          <Button
+            type='text'
+            className='header-button'
+          >
+            <Badge count={5} size='small'>
+              <BellIcon size={20} color='#6c737f' />
+            </Badge>
+          </Button>
+        </Popover>
+        <Button type='text' className='header-button'>
+          <UsersIcon size={20} color='#6c737f' />
+        </Button>
+        <div>
+          <AppDropdown
+            options={[
+              {
+                key: "1",
+                label: "Sign out",
+                icon: <LogOutIcon size={14} />,
+                onClick: () => setOpenModal(true),
+              },
+            ]}
+            onChange={(item) => item.onClick()}
+            overlayStyle={{ minWidth: "150px" }}
+            arrow
+          >
+            <Avatar src={avatar} size={40} />
+          </AppDropdown>
+        </div>
+      </HeaderGroup>
+
+      <LogoutModal openModal={openModal} setOpenModal={setOpenModal} />
     </StyledHeader>
   );
 }

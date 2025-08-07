@@ -1,5 +1,6 @@
 .breadcrumb-clickable {
   cursor: pointer;
+  height: inherit!important;
 }
 
 .breadcrumb-not-clickable {
@@ -8,6 +9,30 @@
 }
 
 .breadcrumb-last {
-  color: #000!important;
+  & > .breadcrumb-label {
+    color: #686868;
+    font-weight: 600;
+  }
 }
 
+.breadcrumb-label {
+  color: #9da4ae;
+  font-weight: 500;
+  font-size: 16px;
+
+  @media (min-width: 768px) {
+    font-size: 24px;
+  }
+}
+
+.app-breadcrumb {
+  .ant-breadcrumb-separator {
+    color: #9da4ae;
+    font-weight: 500;
+    font-size: 16px;
+
+    @media (min-width: 768px) {
+      font-size: 24px;
+    }
+  }
+}

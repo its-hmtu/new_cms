@@ -1,18 +1,24 @@
-import { Breadcrumb } from 'antd';
-import classNames from 'classnames';
-import React from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import PATH from '@/configs/paths/PATH';
-import { getPathUrl } from '@/utils';
+import { Breadcrumb } from "antd";
+import classNames from "classnames";
+import React from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { getPathUrl } from "@/utils";
 // import { useUnsaved } from '@/contexts/UnsavedContext';
-import { UnsavedChangesModal } from '../AppModal/modals';
-import './index.scss';
+// import { UnsavedChangesModal } from "../AppModal/modals";
+import "./index.scss";
+
+const wordWhiteList = ["sms", "smsc", "smsgw", "mt", "mo", "tps"];
 
 const formatSegment = (segment) =>
   segment
-    .split('-')
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
+    .split("-")
+    .map((word) => {
+      if (word === "and") return "&";
+      if (wordWhiteList.includes(word.toLowerCase())) return word.toUpperCase();
+
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    })
+    .join(" ");
 
 const AppBreadcrumb = () => {
   const { pathname } = useLocation();
@@ -27,35 +33,37 @@ const AppBreadcrumb = () => {
     // if (hasUnsaved) {
     //   UnsavedChangesModal(() => navigate(href));
     // } else {
-      navigate(href);
+    navigate(href);
     // }
   };
 
   const buildItem = (key, name, href, isLast, isDynamic) => {
-    const label = isDynamic ? 'Detail' : formatSegment(name);
-    const isClickable =
-      !isLast && !isDynamic
+    const label = isDynamic ? "Detail" : formatSegment(name);
+    const isClickable = !isLast && !isDynamic;
 
     return {
       key,
-      title: <span className="flex items-center gap-1">{label}</span>,
+      title: <span className='breadcrumb-label'>{label}</span>,
       href,
       className: classNames(
-        isClickable ? 'breadcrumb-clickable' : 'breadcrumb-not-clickable',
-        isLast && 'breadcrumb-last',
+        isClickable ? "breadcrumb-clickable" : "breadcrumb-not-clickable",
+        isLast && "breadcrumb-last"
       ),
       onClick: (e) => onNavigate(e, href, isClickable),
     };
   };
 
-  const breadcrumbItems = [
-    buildItem('dashboard', 'Dashboard', PATH.HOME, false, false),
-    ...pathUrl.map((item, index) =>
-      buildItem(index, item.name, item.url, index === pathUrl.length - 1, item.isDynamicSegment)
-    ),
-  ];
+  const breadcrumbItems = pathUrl.map((item, index) =>
+    buildItem(
+      index,
+      item.name,
+      item.url,
+      index === pathUrl.length - 1,
+      item.isDynamicSegment
+    )
+  );
 
-  return <Breadcrumb className="app-breadcrumb flex items-center mt-16" items={breadcrumbItems} />;
+  return <Breadcrumb className='app-breadcrumb' items={breadcrumbItems} />;
 };
 
 export default AppBreadcrumb;
