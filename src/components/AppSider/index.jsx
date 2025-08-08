@@ -53,6 +53,7 @@ function AppSider() {
         mode='inline'
         selectedKeys={selectedKey}
         defaultOpenKeys={defaultOpenKeys}
+        openKeys={defaultOpenKeys}
         items={menuItems}
       />
     </StyledSider>

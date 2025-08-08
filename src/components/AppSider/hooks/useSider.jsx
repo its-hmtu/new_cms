@@ -13,229 +13,190 @@ import {
   TableOfContentsIcon,
   UsersIcon,
 } from "lucide-react";
+import _ from "lodash";
 
-export default function useSider() {
-  const location = useLocation();
-  const [selectedKey, setSelectedKey] = useState([]);
-  const items = useMemo(
-    () => [
+const items = [
+  {
+    key: "monitor",
+    type: "group",
+    label: "Monitor",
+    children: [
       {
-        key: "monitor",
-        type: "group",
-        label: "Monitor",
+        key: "smsc",
+        label: "SMSC",
+        icon: <MessageCircleMoreIcon size={16} />,
         children: [
           {
-            key: "smsc",
-            label: "SMSC",
-            icon: <MessageCircleMoreIcon size={16} />,
-            children: [
-              {
-                key: "smsc-connection",
-                label: "Connection",
-                path: PATH.MONITOR.SMSC_CONNECTION,
-              },
-              {
-                key: "smsc-mttps",
-                label: "MT TPS",
-                path: PATH.MONITOR.SMSC_MTTPS,
-              },
-              {
-                key: "smsc-motps",
-                label: "MO TPS",
-                path: PATH.MONITOR.SMSC_MOTPS,
-              },
-            ],
+            key: "smsc-connection",
+            label: "Connection",
+            path: PATH.MONITOR.SMSC_CONNECTION,
           },
           {
-            key: "monitor-client",
-            label: "Client",
-            icon: <TableOfContentsIcon size={16} />,
-            children: [
-              {
-                key: "client-connection",
-                label: "Connection",
-                path: PATH.MONITOR.CLIENT_CONNECTION,
-              },
-              {
-                key: "client-mt-traffic",
-                label: "MT Traffic",
-                path: PATH.MONITOR.CLIENT_MT_TRAFFIC,
-              },
-              {
-                key: "client-mo-traffic",
-                label: "MO Traffic",
-                path: PATH.MONITOR.CLIENT_MO_TRAFFIC,
-              },
-            ],
+            key: "smsc-mttps",
+            label: "MT TPS",
+            path: PATH.MONITOR.SMSC_MTTPS,
           },
           {
-            key: "queue-monitoring",
-            label: "Queue Monitoring",
-            icon: <ShuffleIcon size={16} />,
-            path: PATH.MONITOR.QUEUE_MONITORING,
+            key: "smsc-motps",
+            label: "MO TPS",
+            path: PATH.MONITOR.SMSC_MOTPS,
           },
         ],
       },
       {
-        key: "management",
-        type: "group",
-        label: "Management",
+        key: "monitor-client",
+        label: "Client",
+        icon: <TableOfContentsIcon size={16} />,
         children: [
           {
-            key: "smsc-info",
-            label: "SMSC Information",
-            icon: <MessagesSquareIcon size={16} />,
-            path: PATH.MANAGEMENT.SMSC_INFO,
+            key: "client-connection",
+            label: "Connection",
+            path: PATH.MONITOR.CLIENT_CONNECTION,
           },
           {
-            key: "smsgw-info",
-            label: "SMSGW Information",
-            icon: <CommandIcon size={16} />,
-            path: PATH.MANAGEMENT.SMSGW_INFO,
-          },
-          {
-            key: "management-client",
-            label: "Client",
-            icon: <TableOfContentsIcon size={16} />,
-            children: [
-              {
-                key: "client-mt-account",
-                label: "MT Account",
-                path: PATH.MANAGEMENT.CLIENT_MT_ACCOUNT,
-              },
-              {
-                key: "client-mo-account",
-                label: "MO Account",
-                path: PATH.MANAGEMENT.CLIENT_MO_ACCOUNT,
-              },
-              {
-                key: "tps-by-time",
-                label: "TPS By Time Management",
-                path: PATH.MANAGEMENT.CLIENT_TPS_BY_TIME,
-              },
-              {
-                key: "delivery-report-account",
-                label: "Delivery Report Account",
-                path: PATH.MANAGEMENT.CLIENT_DELIVERY_REPORT_ACCOUNT,
-              },
-            ],
-          },
-        ],
-      },
-      {
-        key: "history-report",
-        label: "History & Report",
-        type: "group",
-        children: [
-          {
-            key: "sms-history",
-            label: "SMS History",
-            icon: <MessageSquareMoreIcon size={16} />,
-            path: PATH.HISTORY_REPORT.SMS_HISTORY,
-          },
-          {
-            key: "history-report-mt-traffic",
+            key: "client-mt-traffic",
             label: "MT Traffic",
-            icon: <TableOfContentsIcon size={16} />,
-            children: [
-              {
-                key: "history-report-mt-traffic-client",
-                label: "Client",
-                path: PATH.HISTORY_REPORT.MT_TRAFFIC_CLIENT,
-              },
-              {
-                key: "history-report-mt-traffic-smsc",
-                label: "SMSC",
-                path: PATH.HISTORY_REPORT.MO_TRAFFIC_SMSC,
-              },
-            ],
+            path: PATH.MONITOR.CLIENT_MT_TRAFFIC,
           },
           {
-            key: "history-report-mo-traffic",
+            key: "client-mo-traffic",
             label: "MO Traffic",
-            icon: <TableOfContentsIcon size={16} />,
-            children: [
-              {
-                key: "history-report-mo-traffic-client",
-                label: "Client",
-                path: PATH.HISTORY_REPORT.MO_TRAFFIC_CLIENT,
-              },
-              {
-                key: "history-report-mo-traffic-smsc",
-                label: "SMSC",
-                path: PATH.HISTORY_REPORT.MO_TRAFFIC_SMSC,
-              },
-            ],
+            path: PATH.MONITOR.CLIENT_MO_TRAFFIC,
           },
         ],
       },
       {
-        key: "administration",
-        label: "Administration",
-        type: "group",
+        key: "queue-monitoring",
+        label: "Queue Monitoring",
+        icon: <ShuffleIcon size={16} />,
+        path: PATH.MONITOR.QUEUE_MONITORING,
+      },
+    ],
+  },
+  {
+    key: "management",
+    type: "group",
+    label: "Management",
+    children: [
+      {
+        key: "smsc-info",
+        label: "SMSC Information",
+        icon: <MessagesSquareIcon size={16} />,
+        path: PATH.MANAGEMENT.SMSC_INFO,
+      },
+      {
+        key: "smsgw-info",
+        label: "SMSGW Information",
+        icon: <CommandIcon size={16} />,
+        path: PATH.MANAGEMENT.SMSGW_INFO,
+      },
+      {
+        key: "management-client",
+        label: "Client",
+        icon: <TableOfContentsIcon size={16} />,
         children: [
           {
-            key: "account",
-            label: "Account",
-            icon: <UsersIcon size={16} />,
-            path: PATH.ADMINISTRATION.ACCOUNT,
+            key: "client-mt-account",
+            label: "MT Account",
+            path: PATH.MANAGEMENT.CLIENT_MT_ACCOUNT,
           },
           {
-            key: "permission",
-            label: "Permission",
-            icon: <ChartBarIncreasingIcon size={16} />,
-            path: PATH.ADMINISTRATION.PERMISSION,
+            key: "client-mo-account",
+            label: "MO Account",
+            path: PATH.MANAGEMENT.CLIENT_MO_ACCOUNT,
           },
           {
-            key: "permission-group",
-            label: "Permission Group",
-            icon: <ShieldCheckIcon size={16} />,
-            path: PATH.ADMINISTRATION.PERMISSION_GROUP,
+            key: "tps-by-time",
+            label: "TPS By Time Management",
+            path: PATH.MANAGEMENT.CLIENT_TPS_BY_TIME,
+          },
+          {
+            key: "delivery-report-account",
+            label: "Delivery Report Account",
+            path: PATH.MANAGEMENT.CLIENT_DELIVERY_REPORT_ACCOUNT,
           },
         ],
       },
     ],
-    []
-  );
+  },
+  {
+    key: "history-report",
+    label: "History & Report",
+    type: "group",
+    children: [
+      {
+        key: "sms-history",
+        label: "SMS History",
+        icon: <MessageSquareMoreIcon size={16} />,
+        path: PATH.HISTORY_REPORT.SMS_HISTORY,
+      },
+      {
+        key: "history-report-mt-traffic",
+        label: "MT Traffic",
+        icon: <TableOfContentsIcon size={16} />,
+        children: [
+          {
+            key: "history-report-mt-traffic-client",
+            label: "Client",
+            path: PATH.HISTORY_REPORT.MT_TRAFFIC_CLIENT,
+          },
+          {
+            key: "history-report-mt-traffic-smsc",
+            label: "SMSC",
+            path: PATH.HISTORY_REPORT.MT_TRAFFIC_SMSC,
+          },
+        ],
+      },
+      {
+        key: "history-report-mo-traffic",
+        label: "MO Traffic",
+        icon: <TableOfContentsIcon size={16} />,
+        children: [
+          {
+            key: "history-report-mo-traffic-client",
+            label: "Client",
+            path: PATH.HISTORY_REPORT.MO_TRAFFIC_CLIENT,
+          },
+          {
+            key: "history-report-mo-traffic-smsc",
+            label: "SMSC",
+            path: PATH.HISTORY_REPORT.MO_TRAFFIC_SMSC,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    key: "administration",
+    label: "Administration",
+    type: "group",
+    children: [
+      {
+        key: "account",
+        label: "Account",
+        icon: <UsersIcon size={16} />,
+        path: PATH.ADMINISTRATION.ACCOUNT,
+      },
+      {
+        key: "permission",
+        label: "Permission",
+        icon: <ChartBarIncreasingIcon size={16} />,
+        path: PATH.ADMINISTRATION.PERMISSION,
+      },
+      {
+        key: "permission-group",
+        label: "Permission Group",
+        icon: <ShieldCheckIcon size={16} />,
+        path: PATH.ADMINISTRATION.PERMISSION_GROUP,
+      },
+    ],
+  },
+];
 
-  useEffect(() => {
-    const currentPath = location.pathname;
-    const { selected } = findActiveMenuKeys(currentPath, items);
-    setSelectedKey([selected]);
-  }, [location, items]);
-
-  const handleMenuClick = (e, target) => {
-    // if (hasUnsaved) {
-    //   e.preventDefault();
-    //   // UnsavedChangesModal(() => {
-    //   //   navigate(target, { replace: true });
-    //   // });
-    //   return false;
-    // }
-
-    return true;
-  };
-  const transformMenuItems = (items) => {
-    return items.map((item) => ({
-      ...item,
-      label: item.path ? (
-        <NavLink
-          to={item.path}
-          className={({ isActive, isPending }) =>
-            isPending ? "pending" : isActive ? "active" : ""
-          }
-          onClick={(e) => handleMenuClick(e, item.path)}
-        >
-          <span className='label'>{item.label}</span>
-        </NavLink>
-      ) : item.type === "group" ? (
-        <LabelUppercase>{item.label}</LabelUppercase>
-      ) : (
-        <Label>{item.label}</Label>
-      ),
-      children: item.children ? transformMenuItems(item.children) : undefined,
-    }));
-  };
+export default function useSider() {
+  const location = useLocation();
+  // const [selectedKey, setSelectedKey] = useState([]);
+  const [defaultOpenKeys, setDefaultOpenKeys] = useState([""]);
 
   const findActiveMenuKeys = (path, items) => {
     const searchInItems = (itemsList, openKeys = []) => {
@@ -270,17 +231,74 @@ export default function useSider() {
     return searchInItems(items);
   };
 
-  const menuItems = useMemo(() => transformMenuItems(items), [items]);
-  const defaultOpenKeys = [
-    "smsc",
-    "monitor-client",
-    "management-client",
-    "history-report-mt-traffic",
-    "history-report-mo-traffic",
-  ];
+  const selectedKey = useMemo(() => {
+    const currentPath = location.pathname;
+
+    const { selected } = findActiveMenuKeys(currentPath, items);
+    let tabDefaultActive = "";
+
+    items.forEach((item = {}) => {
+      const { children } = item;
+      children.forEach((childItem = {}) => {
+        const childItem2 = childItem.children || null;
+        if (childItem2) {
+          childItem2.forEach((childItem2 = {}) => {
+            if (childItem2.path === location.pathname) {
+              tabDefaultActive = childItem.key;
+            }
+          });
+        }
+      });
+    });
+    setDefaultOpenKeys([tabDefaultActive]);
+    return [selected];
+  }, [location.pathname]);
+
+  const handleMenuClick = (data) => {
+    if (_.isEmpty(defaultOpenKeys, data.key)) {
+      const newData = data.filter((item) => {
+        if (item !== data.key) {
+          return item;
+        }
+      });
+      return setDefaultOpenKeys(newData);
+    }
+    setDefaultOpenKeys([...defaultOpenKeys, data.key]);
+  };
+
+  const transformMenuItems = (items) => {
+    return items.map((item) => ({
+      ...item,
+      label: item.path ? (
+        <NavLink
+          to={item.path}
+          className={({ isActive, isPending }) =>
+            isPending ? "pending" : isActive ? "active" : ""
+          }
+        >
+          <span className="label">{item.label}</span>
+        </NavLink>
+      ) : item.type === "group" ? (
+        <LabelUppercase>{item.label}</LabelUppercase>
+      ) : (
+        <div onClick={() => handleMenuClick(item)}>
+          <Label>{item.label}</Label>
+        </div>
+      ),
+      children: item.children ? transformMenuItems(item.children) : undefined,
+    }));
+  };
+
+  const menuItems = useMemo(() => transformMenuItems(items), [defaultOpenKeys]);
+  // const defaultOpenKeys = [
+  //   "smsc",
+  //   "monitor-client",
+  //   "management-client",
+  //   "history-report-mt-traffic",
+  //   "history-report-mo-traffic",
+  // ];
   return {
     selectedKey,
-    setSelectedKey,
     menuItems,
     defaultOpenKeys,
   };

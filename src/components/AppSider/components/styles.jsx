@@ -100,7 +100,15 @@ export const StyledSider = styled(Sider)`
     padding-bottom: 60px;
     background-color: #1c2536 !important;
     .ant-menu-item-selected {
-      background-color: #ffffff0a !important;
+      background-color: inherit !important;
+
+      .active{
+        &::before{
+          background-color: #ffffff0a;
+          margin: 0 2px;
+          border-radius: 8px;
+        }
+      }
       &::before {
         content: "";
         position: absolute;
