@@ -2,8 +2,7 @@ import React from "react";
 import useAuth from "../useAuth";
 import { Form, Input, Button, Space, Card } from "antd";
 
-
-function LoginForm({loading}) {
+function LoginForm({ loading }) {
   const { logInUser } = useAuth();
   const onFinish = (values) => {
     logInUser(values);
@@ -13,6 +12,9 @@ function LoginForm({loading}) {
       <Space className='login-inner-container' direction='vertical'>
         <div className='login-logo-container'>
           <img src='/logo.png' alt='CMS Magic Wheel' className='' />
+          <p>
+            SMSGW <span>2.0</span>
+          </p>
         </div>
         <Form
           name='login'

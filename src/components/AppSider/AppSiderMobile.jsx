@@ -54,6 +54,7 @@ function AppSiderMobile({ openDrawer, setOpenDrawer }) {
         mode='inline'
         selectedKeys={selectedKey}
         defaultOpenKeys={defaultOpenKeys}
+        openKeys={defaultOpenKeys}
         items={menuItems}
       />
     </StyledDrawer>

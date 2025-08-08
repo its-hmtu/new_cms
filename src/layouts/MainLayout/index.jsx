@@ -1,6 +1,6 @@
 import { Button, Layout, Space } from "antd";
 import React, { useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, ScrollRestoration } from "react-router-dom";
 import "./index.scss";
 import AppHeader from "@/components/AppHeader";
 import AppBreadcrumb from "@/components/AppBreadcrumb";
@@ -45,6 +45,10 @@ function MainLayout() {
           </StyledSpace>
           <Outlet />
         </Content>
+
+        <ScrollRestoration getKey={() => {
+          return null;
+        }} />
       </Layout>
     </Layout>
   );

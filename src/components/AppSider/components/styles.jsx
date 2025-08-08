@@ -35,21 +35,21 @@ export const StyledDrawer = styled(Drawer)`
     border-inline-end: none !important;
     padding-bottom: 20px;
     background-color: #1c2536 !important;
-      .ant-menu-item-selected {
-        background-color: #ffffff0a !important;
-        &::before {
-          content: "";
-          position: absolute;
-          top: 50%;
-          transform: translateY(-50%);
-          right: 8px;
-          width: 7px;
-          height: 7px;
-          background-color: #57F800;
-          box-shadow: 0 0 5px #57F800;
-          border-radius: 99px;
-        }
+    .ant-menu-item-selected {
+      background-color: #ffffff0a !important;
+      &::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 8px;
+        width: 7px;
+        height: 7px;
+        background-color: #57f800;
+        box-shadow: 0 0 5px #57f800;
+        border-radius: 99px;
       }
+    }
   }
 
   .sider-logo {
@@ -117,8 +117,8 @@ export const StyledSider = styled(Sider)`
         right: 8px;
         width: 7px;
         height: 7px;
-        background-color: #57F800;
-        box-shadow: 0 0 5px #57F800;
+        background-color: #57f800;
+        box-shadow: 0 0 5px #57f800;
         border-radius: 99px;
       }
     }
@@ -147,6 +147,7 @@ export const StyledSider = styled(Sider)`
       span {
         display: block;
       }
+
     }
   }
 `;
@@ -160,6 +161,19 @@ export const ToggleSider = styled.div`
   background: #1c2536;
   color: white;
   width: 100%;
+
+  svg {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: ${(props) =>
+      props.collapsed ? "rotate(180deg)" : "rotate(0deg)"};
+  }
+
+  &:hover svg {
+    transform: ${(props) =>
+      props.collapsed
+        ? "rotate(180deg) scale(1.1)"
+        : "rotate(0deg) scale(1.1)"};
+  }
 `;
 
 export const LabelUppercase = styled.span`

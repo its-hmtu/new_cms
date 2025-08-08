@@ -1,5 +1,5 @@
-import React from 'react';
-import { Dropdown } from 'antd';
+import React from "react";
+import { Dropdown } from "antd";
 
 function AppDropdown({ options, onChange, children, disabled, ...props }) {
   // Flatten options into a key-object map for lookup
@@ -10,13 +10,12 @@ function AppDropdown({ options, onChange, children, disabled, ...props }) {
         key: opt.key,
         label: opt.label,
         icon: opt.icon,
-        type: 'group',
+        type: "group",
         children: opt.child.map((child) => {
           keyMap[child.key] = child;
           return {
             key: child.key,
             label: child.label,
-            danger: opt.danger,
           };
         }),
         disabled: opt.disabled,
@@ -44,8 +43,8 @@ function AppDropdown({ options, onChange, children, disabled, ...props }) {
   };
 
   return (
-    <Dropdown menu={menu} trigger={['click']} disabled={disabled} {...props}>
-      <a onClick={(e) => e.preventDefault()}>{children}</a>
+    <Dropdown menu={menu} trigger={["click"]} disabled={disabled} {...props}>
+      {children}
     </Dropdown>
   );
 }

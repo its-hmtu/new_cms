@@ -28,7 +28,6 @@
 }
 
 .login-inner-container {
-  width: 100%;
   width: 480px;
   padding: 48px;
 }
@@ -36,17 +35,44 @@
 .login-logo-container {
   display: flex;
   justify-content: center;
-  align-items: center;
-  margin-bottom: 24px;
+  align-items: flex-end;
+  margin-bottom: 48px;
+  height: 100%;
+
+  p {
+    font-size: 32px;
+    font-weight: 700;
+    margin-left: 16px;
+  }
 
   img {
     aspect-ratio: auto;
     width: 100%;
     height: auto;
-    max-width: 150px;
+    max-width: 65px;
   }
+}
+
+.login-inner-container {
+  height: 520px;
 }
 
 .login-item-label, .login-button {
   font-weight: 500;
+}
+
+.login-button {
+  background: #6366F1;
+
+  &:hover {
+    background: #4F46E5!important;
+  }
+
+  &:focus {
+    background: #6366F1!important;
+  }
+
+  &:active {
+    background: #6366F1!important;
+  }
 }

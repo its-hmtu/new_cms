@@ -26,11 +26,7 @@ function AppSider() {
           }}
           collapsed={collapsed}
         >
-          {collapsed ? (
-            <PanelRightCloseIcon size={16} />
-          ) : (
-            <PanelLeftCloseIcon size={16} />
-          )}
+          <PanelLeftCloseIcon size={16} />
         </ToggleSider>
       }
       collapsed={collapsed}
@@ -53,8 +49,9 @@ function AppSider() {
         mode='inline'
         selectedKeys={selectedKey}
         defaultOpenKeys={defaultOpenKeys}
-        openKeys={defaultOpenKeys}
+        {...(!collapsed && { openKeys: defaultOpenKeys })}
         items={menuItems}
+        inlineCollapsed={collapsed}
       />
     </StyledSider>
   );
