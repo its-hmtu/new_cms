@@ -45,14 +45,14 @@ export const Input = ({
 
 export const BaseInput = ({
   value,
-  onChange,
+  onChange = () => {},
   required,
   label,
   name,
   width,
   clearIconSize,
   defaultValue,
-  onBlur,
+  onBlur = () => {},
   className,
   classNames,
   autoTrim = true,
@@ -74,10 +74,10 @@ export const BaseInput = ({
         }}
         value={value}
         onChange={(e) => {
-          onChange?.(e); 
+          onChange(e); 
         }}
         onBlur={(e) => {
-          onBlur && onBlur(e);
+          onBlur(e);
           const value = e.target.value;
           const trimValue = value?.trim();
           const needTrim = autoTrim && trimValue !== value;

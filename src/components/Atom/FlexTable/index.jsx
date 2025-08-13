@@ -1,14 +1,19 @@
 import React, { useMemo } from "react";
 import { Table as AntTable, Tooltip } from "antd";
+import _ from "lodash";
 import './customTable.css';
 
 export const FlexTable = ({
   onChange,
-  columns,
+  columns = [],
   pagination,
+  className = "",
   ...rest
 }) => {
   const currentColumns = useMemo(() => {
+    if(_.isEmpty(columns)) {
+      return []
+    }
     return columns?.map((item) => {
       let columnWidth = item.width;
       if (item.dataIndex === "no") {
@@ -70,10 +75,11 @@ export const FlexTable = ({
   };
 
   return (
-    <div>
+    <div className="container-table">
       <AntTable
         rowKey="id"
         size="small"
+        className={className}
         sticky
         columns={currentColumns}
         {...rest}
